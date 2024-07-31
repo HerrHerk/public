@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Two Column LAyout</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+</head>
+
+<body>
+    
+    <main id="app-layout">
+
+        <section id = "left-col">
+            <header>
+                <div class="left"></div>
+                <div class ="title">Materials</div>
+                <div class ="right">
+                    <button class="add-btn">Add</button>
+                </div>
+            </header>
+
+
+            <!-- Tabs for navigation -->
+            <div class="tabs">
+                <div class="tab active" data-target="steel">Steel</div>
+                <div class="tab" data-target="aluminium">Aluminium</div>
+                <div class="tab" data-target="iron">Iron</div>
+                <div class="tab" data-target="other">Other</div>
+            </div>
+
+            <!-- Content areas for each tab -->
+            <div id="steel" class="tab-content active">
+                <div class="tab-column" id="steelFiles">
+
+                    <ul id="contact-list-steel", class="contact-list">
+                
+                        <!-- <li class="contact-list-item">
+
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div id="aluminium" class="tab-content">
+                <div class="tab-column" id="aluminiumFiles">
+                    <ul id="contact-list-aluminium", class="contact-list">
+                
+                        <!-- <li class="contact-list-item">
+
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div id="iron" class="tab-content">
+                <div class="tab-column" id="ironFiles">
+                    <ul id="contact-list-iron", class="contact-list">
+                
+                        <!-- <li class="contact-list-item">
+
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div id="other" class="tab-content">
+                <div class="tab-column" id="otherFiles">
+                    <ul id="contact-list-other", class="contact-list">
+                
+                        <!-- <li class="contact-list-item">
+
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <ul id="contact-list">
+                
+                <!-- <li class="contact-list-item">
+
+                    <div class="media">
+                        <div class="two-letters">AB</div>
+                    </div>
+                        
+                    <div class="content">
+                        <div class="title">Title</div>
+                        <div class="subtitle">Subtitle</div>
+                    </div>
+
+                    <div class="action">
+                        <button class="edit-user">edit</button>
+                        <button class=""></button>
+                    </div>
+                </li> -->
+            </ul>
+
+        </section>
+
+        <section id = "right-col">
+            <header>
+                <div>
+                    <button id="back-btn">Back</button>
+                </div>
+                <div class="title">Details</div>
+            </header>
+
+            <div id="right-col-detail"></div>
+
+
+        </section>
+
+    </main>
+
+    <!-- MODAL-->
+
+    <div id="modal-overlay">
+        <div id="modal">
+
+            <!-- MODAL HEADER-->
+
+            <div class="modal-header">
+                <h2>Add Contact</h2>
+            </div>
+            <ul id="error-label"></ul>
+
+            <!-- MODAL CONTENT-->
+
+            <div class="modal-content">
+
+                <div class="row">
+                    <div class="input-group">
+                        <label>First Name</label>
+                        <input type="text" id="name"/>
+                    </div>
+                    <div class="input-group">
+                        <label>Last Name</label>
+                        <input type="text" id="version"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-group">
+                        <label>Age</label>
+                        <input type="number" id="initial_failure_strain"/>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone</label>
+                        <input type="number" id="initial_yield_strength"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-group">
+                        <label>E-Mail</label>
+                        <input type="email" id="material"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MODAL FOOTER-->
+
+            <div class="modal-footer">
+                <button class="close-btn">Close</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </div>   
+    </div>
+
+    <script src="firebase-sdk.js" type="module"></script>
+    <script src="app.js" type="module"></script>
+
+</body>
+</html>

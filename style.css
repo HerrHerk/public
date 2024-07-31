@@ -1,0 +1,445 @@
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+}
+
+#app-layout{
+    display: flex;
+}
+
+#app-layout #left-col{
+
+    flex: 1;
+}
+
+#app-layout #right-col{
+
+    flex: 2;
+}
+
+h1 {
+    color: #5a5a5a;
+
+    font-size: 2rem; /* Increase font size for Herk's */
+  }
+h2 {
+    color: #5a5a5a;
+
+    font-size: 0.8rem; /* Adjust font size for the loading message */
+
+}
+
+/*-------------
+HEADER
+------------- */
+
+header {
+    background-color: rgb(29, 21, 49);
+    color: white;
+    height: 65px;
+    display: flex;
+}
+
+header .left {
+
+    flex: 1;
+}
+
+header .title {
+
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+header .right {
+
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+
+/*-------------
+GLOBAL STYLES
+------------- */
+
+button{
+    background-color: rgb(25, 85, 85);
+    border: none;
+    color: white;
+    font-size: 1em;
+    margin: 5px;
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
+button:hover{
+    background-color: #ffa000;
+    cursor: pointer;
+}
+
+
+/*-------------
+MODAL WINDOW
+------------- */
+
+#modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none; /* hides on opening the page */
+    align-items: center;
+    justify-content: center;
+}
+
+#modal-overlay #modal {
+    max-width: 650px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+
+}
+
+
+/*-------------
+ADD CONTACTS FORM
+------------- */
+
+#modal .modal-header h2 {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+
+#modal .modal-content .row{
+    display: flex;
+}
+
+#modal .modal-content .row .input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 5px 15px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"]{
+    font-size: 16px;
+    height: 28px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #666;
+    border: 1px solid#d6d6d6;
+    border-radius: 4px;
+}
+
+#modal .modal-footer{
+    display: flex;
+    justify-content: right;
+    margin: 5px 10px;
+}
+
+.close-btn{
+    background-color: #999;
+}
+
+
+/*-------------
+CONTACT LIST
+------------- */
+
+#contact-list {
+    padding: 0;
+    margin: 0;
+    /*border: 1px solid #999;*/
+    border-bottom: 0;
+}
+
+.contact-list-item{
+    display: flex;
+    border-bottom: 1px solid #999;
+    padding: 1px;
+}
+
+.contact-list-item .media{
+
+    flex:1;
+}
+
+/*.contact-list-item .media .two-letters {
+    width: 60px;
+    height: 60px;
+    background: #333;
+    border-radius: 50%;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.contact-list-item .content{
+
+    flex: 3;
+    display: flex;
+    
+    justify-content: left;
+    padding-left: 2em;
+}
+
+.contact-list-item .content .title {
+    font-size: 1.2m;
+    font-weight: normal;
+    color: #333;
+    padding-right: 0.5em;
+}
+
+
+.contact-list-item .action{
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*-------------
+HOVER EFFECTS
+------------- */
+
+/* General hover effect */
+.contact-list-item:hover .title,
+.contact-list-item:hover .subtitle {
+    font-weight: bold;
+}
+
+/* Specific hover colors for each material */
+#contact-list-steel .contact-list-item:hover .title,
+#contact-list-steel .contact-list-item:hover .subtitle {
+    color: rgb(120, 0, 0) !important; /* Adjust color for Steel tab */
+}
+
+#contact-list-aluminium .contact-list-item:hover .title,
+#contact-list-aluminium .contact-list-item:hover .subtitle {
+    color: rgb(0, 128, 192) !important; /* Adjust color for Aluminium tab */
+}
+
+#contact-list-iron .contact-list-item:hover .title,
+#contact-list-iron .contact-list-item:hover .subtitle {
+    color: rgb(0, 111, 55) !important; /* Adjust color for Iron tab */
+}
+
+#contact-list-other .contact-list-item:hover .title,
+#contact-list-other .contact-list-item:hover .subtitle {
+    color: rgb(255, 128, 64) !important; /* Adjust color for Other tab */
+}
+
+
+/*-------------
+RIGHT COLUMN
+------------- */
+
+#right-col-detail {
+    display: flex; /* Make it a flex container */
+    position: fixed;
+    padding-left: 4rem;
+    padding-top: 2rem;
+    gap: 0.5rem; /* Add gap between cards and chart containers */
+}
+
+.card-mat-container {
+    
+    
+    
+    gap: 0.5rem; /* Space between material cards */
+}
+
+.card-mat {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #f4f4f4;
+    color: #f4f4f4;
+    padding-left: 5em;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 25rem;
+    
+}
+
+.card-mat .mat-header {
+    font-weight: bold; /* Make the header text bold */
+    text-align: center; /* Align the header text to the center */
+    border-bottom: 2px solid #ccc; /* Add a solid border bottom to create an underline effect */
+    padding-bottom: 5px; /* Add some bottom padding to separate the header from the rows */
+    font-size: 1rem;
+  }
+
+.card-mat .mat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.1em;
+    
+}
+
+.card-mat .mat-property {
+    flex: 1;
+    font-size: 1rem;
+    min-width: 12rem;
+}
+
+.card-mat .mat-data {
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+    min-width: 5rem;
+}
+
+.card-mat .mat-unit {
+    flex: 1;
+    text-align: right;
+    font-size: 1rem;
+    min-width: 4rem;
+}
+
+/* Style for rows with missing data */
+.missing-data {
+    color: grey;
+}
+
+
+
+/*-------------
+CHART
+------------- */
+
+.card-chart {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #f4f4f4;
+    color: #f4f4f4;
+    padding-left: 5rem;
+    padding: 5px;
+    border-radius: 5px;
+    
+}
+
+.card-chart .mat-header {
+    font-weight: bold; /* Make the header text bold */
+    text-align: center; /* Align the header text to the center */
+    border-bottom: 2px solid #ccc; /* Add a solid border bottom to create an underline effect */
+    padding-bottom: 5px; /* Add some bottom padding to separate the header from the rows */
+    font-size: 1rem;
+}
+
+.card-chart-container {
+    flex-direction: column;
+    
+    display: flex; /* Make it a flex container */
+    gap: 0.5rem; /* Space between material cards */
+}
+
+.chart-canv {
+    height: 20.9rem /* Set your desired width */
+}
+
+
+/*-------------
+LINK
+------------- */
+
+.reference-link {
+    color: white; /* Default link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.reference-link:hover {
+    text-decoration: underline; /* Underline on hover for better visibility */
+}
+
+
+/*-------------
+SMALL SCREEN ADJUSTMENT
+------------- */
+
+#app-layout #right-col #back-btn {
+    display: none;
+}
+
+@media only screen and (max-width:600px) {
+    #app-layout #right-col {
+        display: none;
+    }
+
+    #app-layout #right-col #back-btn {
+        margin: 20px 0 0 20px;
+        display: block;
+    }
+
+    #modal .modal-content .row {
+        flex-direction: column;
+    }
+}
+
+
+/*-------------
+TABS
+------------- */
+
+.tabs {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px 5px 0 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.tab.active {
+    background-color: #fff;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+.tab-content {
+    /*border: 1px solid #ccc;*/
+    border-radius: 0 5px 5px 5px;
+    
+    background-color: #fff;
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab[data-target="steel"] {
+    color: rgb(120, 0, 0); /* Adjust color for Steel tab */
+  }
+  .tab[data-target="aluminium"] {
+    color: rgb(0, 128, 192); /* Adjust color for Aluminium tab */
+  }
+  .tab[data-target="iron"] {
+    color: rgb(0, 111, 55); /* Adjust color for Iron tab */
+  }
+  .tab[data-target="other"] {
+    color: rgb(255, 128, 64); /* Adjust color for Other tab */
+  }
+
+  
