@@ -121,6 +121,9 @@ const showContacts = (contacts) => {
                         <button class="delete-user">
                             delete
                         </button>
+                        <button class="download-btn">
+                            download
+                        </button>
                     </div>
                 </li>`;
 
@@ -143,6 +146,7 @@ const showContacts = (contacts) => {
 
 const contactListPressed = (event) => {
     const id = event.target.closest("li").getAttribute("id");
+    const action = document.querySelectorAll('.contact-list-item .action');
     // console.log (id);
 
     if(event.target.className === "edit-user") {
@@ -150,10 +154,15 @@ const contactListPressed = (event) => {
 
     } else if(event.target.className === "delete-user") {
         deleteButtonPressed(id);
+
+    } else if(event.target.className === "download-btn") {
+        downloadButtonPressed(id);
     
     } else {
         displayContactOnDetailsView(id);
         toggleLeftAndRightViewsOnMobile();
+        //action.style.display = 'block';
+        
     }
 
     
@@ -211,6 +220,126 @@ const deleteButtonPressed = async (id) => {
         }
     }
 }
+
+
+//------------------------------------------------------------
+// DOWNLOAD DATA
+//------------------------------------------------------------
+
+const downloadButtonPressed = async (id) => {
+    const contact = getContact(id);
+
+    // Get the date
+    const currentDate = new Date();
+
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = date.getFullYear();
+    
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+        return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+    };
+    
+    const formattedDate = formatDate(currentDate);
+
+    // Generate a consistent random color based on the material name
+    var materialName = `${contact.name} (${contact.version})`;
+    var color = generateColor(materialName);
+
+    // Values to be inserted into the XML template
+    var values = {
+        version: "18.2.0.210", // 1st value should be adjsuted based on ANSYS version, if there are compatibily issues
+        versiondate: formattedDate, // Use the formatted current date and time
+        pr0_pa0: color.red.toString(), // Red
+        pr0_pa1: color.green.toString(), // Green
+        pr0_pa2: color.blue.toString(), // Blue
+        pr0_pa3: "Appearance",
+        pr1_pa4: "Interpolation Options",
+        pr1_pa5: contact.density, // Density
+        pr1_pa6: "7.88860905221012e-31",
+        pr2_pa4: "Interpolation Options",
+        pr2_pa7: contact.e_modulus, // Young's Modulus
+        pr2_pa8: contact.poisson, // Poisson's Ratio
+        pr2_pa9: "69607843137.2549",
+        pr2_pa10: "26691729323.3083",
+        pr2_pa6: "7.88860905221012e-31",
+        pr3_pa11: contact.initial_yield_strength, // Initial Yield Stress
+        pr3_pa12: contact.hardening_constan, // Hardening Constant
+        pr3_pa13: contact.hardening_exponent, // Hardening Exponent
+        pr3_pa14: contact.strain_rate_constant, // Strain Rate Constant
+        pr3_pa15: contact.thermal_softening_exp, // Thermal Softening Exponent
+        pr3_pa16: contact.melting_temperature, // Melting Temperature
+        pr3_pa17: contact.reference_strain_rate, // Reference Strain Rate (/sec)
+        pr4_pa4: "Interpolation Options",
+        pr4_pa18: contact.specific_heat, // Specific Heat
+        pr4_pa6: "7.88860905221012e-31",
+        pr5_pa19: contact.initial_failure_strain, // Damage Constant D1
+        pr5_pa20: contact.exponential_factor, // Damage Constant D2
+        pr5_pa21: contact.triaxial_factor, // Damage Constant D3
+        pr5_pa22: contact.strain_rate_factor, // Damage Constant D4
+        pr5_pa23: contact.temperature_factor, // Damage Constant D5
+        pr5_pa16: contact.melting_temperature, // Melting Temperature
+        pr5_pa17: contact.reference_strain_rate, // Reference Strain Rate (/sec)
+        pr6_pa24: contact.grueneisen_coefficient, // Gruneisen Coefficient
+        pr6_pa25: contact.parameter_c1, // Parameter C1
+        pr6_pa26: contact.parameter_s1, // Parameter S1
+        pr6_pa27: contact.parameter_quadratic, // Parameter Quadratic S2
+        pr7_pa10: contact.shear_modulus, // Shear Modulus
+        material_name: materialName // Dynamic material_name variable
+    }; 
+
+    // Fetch the XML template
+    const response = await fetch('mat-template.xml');
+    let xmlTemplate = await response.text();
+
+
+    // Replace placeholders with values
+    for (var key in values) {
+        xmlTemplate = xmlTemplate.replace(new RegExp('{{' + key + '}}', 'g'), values[key]);
+    }
+
+    // Create a Blob with the XML content
+    const blob = new Blob([xmlTemplate], { type: 'application/xml' });
+    // Create a link element
+    const link = document.createElement('a');
+    // Create a URL for the Blob
+    link.href = URL.createObjectURL(blob);
+    // Set the download attribute with the desired file name
+    link.download = materialName + '.xml';
+    // Append the link to the body (necessary for some browsers)
+    document.body.appendChild(link);
+    // Programmatically click the link to trigger the download
+    link.click();
+    // Remove the link from the document
+    document.body.removeChild(link);
+
+}
+
+// Function to generate a consistent random color based on the material name
+function generateColor(materialName) {
+    // Calculate the hash of the material name
+    var hash = 0;
+    if (materialName.length == 0) return hash;
+    for (var i = 0; i < materialName.length; i++) {
+      var char = materialName.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    
+    // Use the hash to determine the RGB values
+    var red = Math.abs(hash) % 256;
+    var green = Math.abs((hash >> 8)) % 256;
+    var blue = Math.abs((hash >> 16)) % 256;
+    
+    // Return the RGB values as an object
+    return { red: red, green: green, blue: blue };
+}
+
+
 //------------------------------------------------------------
 // DISPLAY DETAILS VIEW ON LIST ITEM CLICK
 //------------------------------------------------------------
@@ -298,7 +427,7 @@ const displayContactOnDetailsView = (id) => {
                 </div>
                 <div class="mat-row ${!contact.thermal_softening_exp ? 'missing-data' : ''}">
                     <div class="mat-property">Temperature Factor:</div>
-                    <div class="mat-data">${formatValue(contact.thermal_softening_exp)}</div>
+                    <div class="mat-data">${formatValue(contact.temperature_factor)}</div>
                     <div class="mat-unit">[-]</div>
                 </div>
                 <div class="mat-row ${!contact.melting_temperature ? 'missing-data' : ''}">
@@ -843,26 +972,26 @@ document.addEventListener('DOMContentLoaded', function () {
     var contents = document.querySelectorAll('.tab-content');
 
     tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () {
-        // Remove active class from all tabs
-        tabs.forEach(function (tab) {
-          tab.classList.remove('active');
+        tab.addEventListener('click', function () {
+            // Remove active class from all tabs
+            tabs.forEach(function (tab) {
+            tab.classList.remove('active');
+            });
+
+            // Add active class to clicked tab
+            tab.classList.add('active');
+
+            // Hide all contents
+            contents.forEach(function (content) {
+            content.classList.remove('active');
+            });
+
+            // Show content corresponding to clicked tab
+            var target = tab.getAttribute('data-target');
+            document.getElementById(target).classList.add('active');
+
+            // Log the active tab
+            console.log('Active tab:', tab.textContent || tab.innerText);        
         });
-
-        // Add active class to clicked tab
-        tab.classList.add('active');
-
-        // Hide all contents
-        contents.forEach(function (content) {
-          content.classList.remove('active');
-        });
-
-        // Show content corresponding to clicked tab
-        var target = tab.getAttribute('data-target');
-        document.getElementById(target).classList.add('active');
-
-        // Log the active tab
-        console.log('Active tab:', tab.textContent || tab.innerText);        
-      });
     });
-  });
+});
