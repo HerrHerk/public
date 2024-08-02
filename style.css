@@ -102,7 +102,7 @@ MODAL WINDOW
 }
 
 #modal-overlay #modal {
-    max-width: 650px;
+    /* max-width: 650px; */
     width: 100%;
     background-color: white;
     border-radius: 10px;
@@ -118,29 +118,45 @@ ADD CONTACTS FORM
     text-align: center;
     margin: 0;
     padding: 10px;
+    
 }
 
-#modal .modal-content .row{
+#modal .modal-content{
     display: flex;
+    
 }
 
-#modal .modal-content .row .input-group {
-    flex: 1;
+#modal .modal-content .input-card {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    padding: 15px; /* Add some padding to the input card */
+    gap: 10px; /* Space between each input group */
+}
+
+#modal .modal-content .input-card .input-group {
+    
+    display: flex;
+    
     margin: 5px 15px;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="email"]{
+#modal .modal-content .input-card .input-group label {
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+#modal .modal-content .input-card .input-group input {
+    width: 35%; /* Input field takes full width of its container */
     font-size: 16px;
     height: 28px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 1px;
     color: #666;
-    border: 1px solid#d6d6d6;
+    border: 1px solid #d6d6d6;
     border-radius: 4px;
+    
 }
 
 #modal .modal-footer{
@@ -176,17 +192,18 @@ CONTACT LIST
     flex:1;
 }
 
-/*.contact-list-item .media .two-letters {
-    width: 60px;
+.contact-list-item .media .two-letters {
+/*     width: 60px;
     height: 60px;
     background: #333;
     border-radius: 50%;
-    color: white;
+    color: white; */
 
     display: flex;
+    margin-top: 10px;
     justify-content: center;
     align-items: center;
-}*/
+}
 
 .contact-list-item .content{
 
@@ -202,8 +219,19 @@ CONTACT LIST
     font-weight: normal;
     color: #333;
     padding-right: 0.5em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: left;
 }
 
+.contact-list-item .content .subtitle {
+    font-size: 1.2m;
+    font-weight: normal;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: left;
+}
 
 .contact-list-item .action{
 
@@ -385,7 +413,7 @@ SMALL SCREEN ADJUSTMENT
         display: block;
     }
 
-    #modal .modal-content .row {
+    #modal .modal-content .input-card {
         flex-direction: column;
     }
 }

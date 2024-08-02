@@ -114,17 +114,7 @@ const showContacts = (contacts) => {
                         </div>
                     </div>
 
-                    <div class="action">
-                        <button class="edit-user">
-                            edit
-                        </button>
-                        <button class="delete-user">
-                            delete
-                        </button>
-                        <button class="download-btn">
-                            download
-                        </button>
-                    </div>
+
                 </li>`;
 
     // Determine the contact list based on contact.material
@@ -161,7 +151,7 @@ const contactListPressed = (event) => {
     } else {
         displayContactOnDetailsView(id);
         toggleLeftAndRightViewsOnMobile();
-        //action.style.display = 'block';
+        displayButtonsOnDetailView(id);
         
     }
 
@@ -195,8 +185,37 @@ const editButtonPressed = (id) => {
 
     name.value = contact.name;
     version.value = contact.version;
-    initial_failure_strain.value = contact.initial_failure_strain;
+    
     initial_yield_strength.value = contact.initial_yield_strength;
+    hardening_constan.value = contact.hardening_constan;
+    hardening_exponent.value = contact.hardening_exponent;
+    strain_rate_constant.value = contact.strain_rate_constant;
+    thermal_softening_exp.value = contact.thermal_softening_exp;
+    melting_temperature.value = contact.melting_temperature;
+    reference_strain_rate.value = contact.reference_strain_rate;
+
+    initial_failure_strain.value = contact.initial_failure_strain;
+    exponential_factor.value = contact.exponential_factor;
+    triaxial_factor.value = contact.triaxial_factor;
+    strain_rate_factor.value = contact.strain_rate_factor;
+    temperature_factor.value = contact.temperature_factor;
+
+    e_modulus.value = contact.e_modulus;
+    poisson.value = contact.poisson;
+    shear_modulus.value = contact.shear_modulus;
+    bulk_modulus.value = contact.bulk_modulus;
+
+    grueneisen_coefficient.value = contact.grueneisen_coefficient;
+    parameter_c1.value = contact.parameter_c1;
+    parameter_s1.value = contact.parameter_s1;
+    parameter_quadratic.value = contact.parameter_quadratic;
+
+    density.value = contact.density;
+    specific_heat.value = contact.specific_heat;
+
+    hardness.value = contact.hardness;
+    source.value = contact.source;
+    reference.value = contact.reference;
     material.value = contact.material;
 
     modalOverlay.setAttribute("contact-id", contact.id);
@@ -546,6 +565,49 @@ const displayContactOnDetailsView = (id) => {
     }, 0);
 };
 
+const displayButtonsOnDetailView = (id) => {
+    const contact = getContact(id);
+    const listItem = document.getElementById(id);
+
+    if (listItem) {
+        // Hide buttons on all other list items
+        hideOtherButtonsOnDetailView(id);
+
+        const buttonsDiv = document.createElement("div");
+        buttonsDiv.className = "action";
+        buttonsDiv.innerHTML = `
+            <button class="edit-user">edit</button>
+            <button class="delete-user">delete</button>
+            <button class="download-btn">download</button>
+        `;
+
+        // Clear any previous buttons on this item to avoid duplication
+        const existingActionDiv = listItem.querySelector('.action');
+        if (existingActionDiv) {
+            existingActionDiv.remove();
+        }
+
+        // Append the new buttons div to the list item
+        listItem.appendChild(buttonsDiv);
+    } else {
+        console.error(`Contact with id ${id} not found`);
+    }
+};
+
+
+const hideOtherButtonsOnDetailView = (id) => {
+    const listItems = document.querySelectorAll(".contact-list-item");
+
+    listItems.forEach(item => {
+        if (item.id !== id) {
+            const actionDiv = item.querySelector('.action');
+            if (actionDiv) {
+                actionDiv.remove();
+            }
+        }
+    });
+};
+
 //------------------------------------------------------------
 // CHART
 //------------------------------------------------------------
@@ -802,9 +864,38 @@ const addButtonPressed = () => {
 
     name.value = "";
     version.value = "";
-    initial_failure_strain.value = "";
+    
     initial_yield_strength.value = "";
+    hardening_constan.value = "";
+    hardening_exponent.value = "";
+    strain_rate_constant.value = "";
+    thermal_softening_exp.value = "";
+    melting_temperature.value = "";
+    reference_strain_rate.value = "";
+    
+    initial_failure_strain.value = "";
+    exponential_factor.value = "";
+    triaxial_factor.value = "";
+    strain_rate_factor.value = "";
+    
+    e_modulus.value = "";
+    poisson.value = "";
+    shear_modulus.value = "";
+    bulk_modulus.value = "";
+    
+    grueneisen_coefficient.value = "";
+    parameter_c1.value = "";
+    parameter_s1.value = "";
+    parameter_quadratic.value = "";
+    
+    density.value = "";
+    specific_heat.value = "";
+    
+    hardness.value = "";
+    source.value = "";
+    reference.value = "";
     material.value = "";
+    
 }
 
 const closeButtonPressed = () => {
@@ -837,6 +928,8 @@ modalOverlay.addEventListener("click", hideModal);
 const saveBtn = document.querySelector(".save-btn");
 const error = {};
 
+
+
 const name = document.getElementById("name"),
       version = document.getElementById("version"),
       initial_failure_strain = document.getElementById("initial_failure_strain"),
@@ -844,13 +937,53 @@ const name = document.getElementById("name"),
       material = document.getElementById("material");
 
 const saveButtonPressed = async() => {
+
+
+    /* OLD CHECKS, MAYBE GOOD FOR LATER
+
     checkRequired([name, version, initial_failure_strain, initial_yield_strength, material]);
     checkmaterial(material);
     checkInputLength(initial_failure_strain, 2);
     checkInputLength(initial_yield_strength, 10);
-    showErrorMessages();
+    showErrorMessages(); */
 
     if (Object.keys(error).length === 0) {
+
+        const mat_properties = {
+            name: name.value,
+            version: version.value,
+            
+            initial_yield_strength: initial_yield_strength.value,
+            hardening_constan: hardening_constan.value,
+            hardening_exponent: hardening_exponent.value,
+            strain_rate_constant: strain_rate_constant.value,
+            thermal_softening_exp: thermal_softening_exp.value,
+            melting_temperature: melting_temperature.value,
+            reference_strain_rate: reference_strain_rate.value,
+        
+            initial_failure_strain: initial_failure_strain.value,
+            exponential_factor: exponential_factor.value,
+            triaxial_factor: triaxial_factor.value,
+            strain_rate_factor: strain_rate_factor.value,
+        
+            e_modulus: e_modulus.value,
+            poisson: poisson.value,
+            shear_modulus: shear_modulus.value,
+            bulk_modulus: bulk_modulus.value,
+        
+            grueneisen_coefficient: grueneisen_coefficient.value,
+            parameter_c1: parameter_c1.value,
+            parameter_s1: parameter_s1.value,
+            parameter_quadratic: parameter_quadratic.value,
+        
+            density: density.value,
+            specific_heat: specific_heat.value,
+        
+            hardness: hardness.value,
+            source: source.value,
+            reference: reference.value,
+            material: material.value
+        };
 
         if(modalOverlay.getAttribute("contact-id")) {
             // update data
@@ -858,13 +991,7 @@ const saveButtonPressed = async() => {
 
             try {
                 
-                await updateDoc(docRef, {
-                    name: name.value,
-                    version: version.value,
-                    initial_failure_strain: initial_failure_strain.value,
-                    initial_yield_strength: initial_yield_strength.value,
-                    material: material.value
-                });
+                await updateDoc(docRef, mat_properties);
 
                 hideModal();
 
@@ -878,13 +1005,7 @@ const saveButtonPressed = async() => {
         } else {
             // add data
             try {
-                await addDoc(dbRef, {
-                    name: name.value,
-                    version: version.value,
-                    initial_failure_strain: initial_failure_strain.value,
-                    initial_yield_strength: initial_yield_strength.value,
-                    material: material.value
-                });
+                await addDoc(dbRef, mat_properties);
                 hideModal();
                 // here
             } catch (err) {
