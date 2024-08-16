@@ -444,7 +444,7 @@ const displayContactOnDetailsView = (id) => {
                     <div class="mat-data">${formatValue(contact.strain_rate_factor)}</div>
                     <div class="mat-unit">[-]</div>
                 </div>
-                <div class="mat-row ${!contact.thermal_softening_exp ? 'missing-data' : ''}">
+                <div class="mat-row ${!contact.temperature_factor ? 'missing-data' : ''}">
                     <div class="mat-property">Temperature Factor:</div>
                     <div class="mat-data">${formatValue(contact.temperature_factor)}</div>
                     <div class="mat-unit">[-]</div>
@@ -877,7 +877,8 @@ const addButtonPressed = () => {
     exponential_factor.value = "";
     triaxial_factor.value = "";
     strain_rate_factor.value = "";
-    
+    temperature_factor.value = "";
+
     e_modulus.value = "";
     poisson.value = "";
     shear_modulus.value = "";
@@ -965,6 +966,7 @@ const saveButtonPressed = async() => {
             exponential_factor: exponential_factor.value,
             triaxial_factor: triaxial_factor.value,
             strain_rate_factor: strain_rate_factor.value,
+            temperature_factor: temperature_factor.value,
         
             e_modulus: e_modulus.value,
             poisson: poisson.value,
