@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f4f4f4;
 }
@@ -16,6 +17,7 @@ body{
 #app-layout #right-col{
 
     flex: 2;
+    
 }
 
 h1 {
@@ -39,12 +41,18 @@ header {
     color: white;
     height: 65px;
     display: flex;
+    align-items: center; /* Aligns all items vertically in the center */
 }
 
 header .left {
 
     flex: 1;
 }
+
+
+
+
+
 
 header .title {
 
@@ -63,6 +71,57 @@ header .right {
     justify-content: right;
 }
 
+
+/*-------------
+AUTH STYLES
+------------- */
+
+/* Styling for the "Sign Up / Log In" section */
+.auth-links-login {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes this div to the far right */
+}
+
+.auth-links-logout {
+    display: none;
+    align-items: center;
+    margin-left: auto; /* Pushes this div to the far right */
+    
+}
+
+
+/* Styling for the text */
+.auth-text, .profile-data {
+    margin-right: 10px; /* Add space between "Profile" and "Log Out" */
+    font-size: 14px; /* Adjust font size as needed */
+    text-decoration: none; /* Remove underline from the link */
+    color: inherit; /* Inherit color from parent */
+    cursor: pointer; /* Make it look clickable */
+}
+
+
+/* Optional: Change color on hover */
+.auth-text:hover {
+    color: #4183c4; /* Change to a suitable color on hover */
+}
+
+.profile-data:hover {
+    color: #dfae28; /* Change to a suitable color on hover */
+}
+
+.profile-data-btn {
+    margin-right: 5px;
+    font-size: 14px; /* Adjust font size as needed */
+    text-decoration: none; /* Remove underline from the link */
+    color: inherit; /* Inherit color from parent */
+}
+
+/* Icon alignment */
+.auth-links-logout i {
+    display: flex;
+    align-items: center;
+}
 
 /*-------------
 GLOBAL STYLES
@@ -480,21 +539,61 @@ AUTH UI
 ------------- */
 
 #ui-section {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
     height: 100vh;
-    background-color: #ececec;
-    display: flex;
-    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: none; /* hides on opening the page */
     align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top of other content */
+    
 }
 
-.signup-form {
-    min-width: 300px;
+#signup-form {
+    min-width: 400px;
+    display:none;
+    text-align: center;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+}
+
+#login-form {
+    min-width: 400px;
     text-align: center;
     display:none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
 }
-
-
 
 #user-profile {
+    min-width: 400px;
+    text-align: center;
     display:none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
 }
+
+/* CSS to add pointer cursor to specific anchor tags */
+#need-an-account-btn,
+#have-an-account-btn {
+    cursor: pointer;
+}
+
+
+#ui-section #login-overlay {
+    
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+
+}
+
+
+

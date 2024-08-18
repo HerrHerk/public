@@ -105,10 +105,21 @@
 
         <section id = "right-col">
             <header>
-                <div>
+                <div class="left">
                     <button id="back-btn">Back</button>
                 </div>
                 <div class="title">Details</div>
+                <div class="right">
+                    <div class="auth-links-login" id="auth-links-login">
+                        <a href="#" class="auth-text" id="sign-up-log-in-btn">Sign Up / Log In</a>
+                        <i class="user icon"></i>
+                    </div>
+                    <div class="auth-links-logout" id="auth-links-logout">
+                        <div class="profile-data" id="profile-data-btn">Profile</div>
+                        <a href="#" class="auth-text" id="profile-logout-btn">Log Out</a>
+                        <i class="sign-out icon"></i>
+                    </div>
+                </div>
             </header>
 
             <div id="right-col-detail"></div>
@@ -277,86 +288,92 @@
 
     <!-- USER-->
 
-    <section id="ui-section" class="ui segment loading">
+    <div id="ui-section" class="ui segment loading">
+        <div id="login-overlay">
 
-        <div  class="ui-segment" id = "user-profile">
-            <div class="ui card">
-                <div class="ui content">
-                    <div class="header">
-                        User Profile 
+            <!-- PROFILE -->
+            <div  class="ui-segment" id = "user-profile">
+                <div class="ui card">
+                    <div class="ui content">
+                        <div class="header">
+                            User Profile 
+                        </div>
+                        <div class="meta" id="user-email">
+                            someemail@gmail.com
+                        </div>
                     </div>
-                    <div class="meta" id="user-email">
-                        someemail@gmail.com
+                    <div class="ui extra content">
+                        <button class="ui button red tiny" id="logout-btn">
+                            Log out
+                        </button>
                     </div>
-                </div>
-                <div class="ui extra content">
-                    <button class="ui button red tiny" id="logout-btn">
-                        Log out
-                    </button>
                 </div>
             </div>
+
+
+            <!-- LOG IN FORM -->
+            <div class="ui segment" id="login-form">
+                <form class="ui form">
+                    <div class="ui stacked segment">
+                        <div class="ui error message" id="login-error-message">
+                            
+                        </div>
+                        <!-- EMAIL -->
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="mail icon"></i>
+                                <input type="email" placeholder="Email" id="login-email"/>
+                            </div>
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" placeholder="Password" id="login-password"/>
+                            </div>
+                        </div>
+                        <button class="ui button blue fluid" id="login-btn">
+                            LOG IN
+                        </button>
+                    </div>
+                </form>
+                <div class="ui message small">Need an account? <a id="need-an-account-btn">Sign up</a></div>
+            </div>
+
+            <!-- SIGN UP FORM -->
+            <div class="ui segment" id="signup-form">
+                <form class="ui form">
+                    <div class="ui stacked segment">
+
+                        <!-- ERROR MSG -->
+
+                        <div class="ui error message" id="error-message">
+                            
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="mail icon"></i>
+                                <input type="email" placeholder="Email" id="email"/>
+                            </div>
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" placeholder="Password" id="password"/>
+                            </div>
+                        </div>
+                        <button class="ui button green fluid" id="signup-btn">CREATE ACCOUNT</button>
+                    </div>
+                </form>
+                <div class="ui message small">Already have an account? <a id="have-an-account-btn">Log In</a></div>
+            </div>
         </div>
-
-
-        <!-- LOG IN FORM -->
-        <div class="ui segment" id="login-form">
-            <form class="ui form">
-                <div class="ui stacked segment">
-                    <!-- EMAIL -->
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="mail icon"></i>
-                            <input type="email" placeholder="Email" id="login-email"/>
-                        </div>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input type="password" placeholder="Password" id="login-password"/>
-                        </div>
-                    </div>
-                    <button class="ui button blue fluid" id="login-btn">
-                        LOG IN
-                    </button>
-                </div>
-            </form>
-            <div class="ui message small">Need an account? <a>Sign up</a></div>
-        </div>
-
-
-        <div class="ui segment grey signup-form" id="signup-form">
-            <form class="ui form">
-                <div class="ui stacked segment">
-
-                    <!-- ERROR MSG -->
-
-                    <div class="ui error message" id="error-message">
-                        
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="mail icon"></i>
-                            <input type="email" placeholder="Email" id="email"/>
-                        </div>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input type="password" placeholder="Password" id="password"/>
-                        </div>
-                    </div>
-                    <button class="ui button green fluid" id="signup-btn">CREATE ACCOUNT</button>
-                </div>
-            </form>
-            <div class="ui message small">Already have an account? <a>Log In</a></div>
-        </div>
-    </section>
+    </div>
 
 
     <script type="module" src="firebase-sdk.js"></script>

@@ -906,8 +906,8 @@ const closeButtonPressed = () => {
 const hideModal = (e) => {
     
     if (e instanceof Event) {
-        // console.log(e.target);
-        // onsole.log(e.currenTtarget);
+        console.log(e.target);
+        console.log(e.currenTtarget);
     
         if (e.target === e.currentTarget) {
             modalOverlay.style.display = "none";
