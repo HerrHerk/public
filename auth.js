@@ -5,12 +5,25 @@ import {
     onAuthStateChanged, 
     signOut,
     signInWithEmailAndPassword,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
 // Ensure the auth component is registered properly
 const auth = getAuth(app);
 
-const mainView = document.getElementById("ui-section");
+const mainView = document.getElementById("ui-section"); //shows everything account related
+
+const emailVerificationView = document.getElementById("email-verification")
+const resendEmailBtn = document.getElementById("resend-email-btn");
+
+const resetPasswordForm = document.getElementById("reset-password-form");
+const resetPasswordBtn = document.getElementById("reset-password-btn");
+const resetPasswordEmail = document.getElementById("reset-password-email");
+const resetPasswordMessage = document.getElementById("rp-message");
+
 
 const loginForm = document.getElementById("login-form");
 const loginEmail = document.getElementById("login-email");
@@ -18,6 +31,8 @@ const loginPassword = document.getElementById("login-password");
 const loginBtn = document.getElementById("login-btn");
 const loginErrorMessage = document.getElementById("login-error-message");
 const needAnAccountBtn= document.getElementById("need-an-account-btn");
+const forgotPasswordBtn = document.getElementById("forgot-password-btn");
+const loginWithGoogleBtn = document.getElementById("login-with-google-btn");
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
@@ -40,13 +55,29 @@ onAuthStateChanged(auth, (user) => {
 
     console.log(user);
     if (user) {
-        UIuserEmail.innerHTML = user.email;
 
-        loginForm.style.display = "none";
-        userProfileView.style.display = "none";
-        mainView.style.display = "none";
         authLinksLogIn.style.display = "none";
         authLinksLogOut.style.display = "flex"; // Show logout options
+        emailVerificationView.style.display = "none";
+
+        if (!user.emailVerified) {
+            loginForm.style.display = "none";
+            userProfileView.style.display = "none";
+            signUpFormView.style.display = "none";
+            emailVerificationView.style.display = "block";
+
+        } else {
+            UIuserEmail.innerHTML = user.email;
+
+            loginForm.style.display = "none";
+            userProfileView.style.display = "none";
+            mainView.style.display = "none";
+            authLinksLogIn.style.display = "none";
+            authLinksLogOut.style.display = "flex"; // Show logout options
+            signUpFormView.style.display = "none";
+        }
+
+
 
     } else {
 
@@ -54,6 +85,8 @@ onAuthStateChanged(auth, (user) => {
         userProfileView.style.display = "none";
         authLinksLogIn.style.display = "flex";  // Show login options
         authLinksLogOut.style.display = "none";
+        emailVerificationView.style.display = "none";
+        resetPasswordForm.style.display = "none";
 
     }
     mainView.classList.remove("loading");
@@ -81,13 +114,34 @@ const hideMainView = (e) => {
 
 }
 
+
+
+
 const profileDataBtnPressed = () => {
+    const user = auth.currentUser; // Use the 'auth' instance to get the current user
+
+    // Common UI updates regardless of verification status
     mainView.style.display = "flex";
     loginForm.style.display = "none";
     signUpFormView.style.display = "none";
-    userProfileView.style.display = "block";
-}
+    resetPasswordForm.style.display = "none";
 
+    if (user) {
+        if (user.emailVerified) {
+            // If the user's email is verified, show the profile view
+            userProfileView.style.display = "block";
+            emailVerificationView.style.display = "none";
+        } else {
+            // If the user's email is not verified, show the email verification view
+            userProfileView.style.display = "none";
+            emailVerificationView.style.display = "block";
+        }
+
+
+    } else {
+        console.error("No authenticated user found.");
+    }
+};
 
 const profileLogOutBtnPressed = () => {
     logOutBtnPressed();
@@ -106,6 +160,9 @@ const signUpBtnPressed = async (e) => {
             email.value,
             password.value
         );
+
+        await sendEmailVerification(userCredential.user);
+        
         console.log(userCredential);
 
 
@@ -168,11 +225,51 @@ const signUpLogInBtnPressed = (e) => {
     mainView.style.display = "flex";
     loginForm.style.display = "block";
     signUpFormView.style.display = "none";
+    resetPasswordForm.style.display = "none";
     // authLinksLogIn.style.display = "none";
     // authLinksLogOut.style.display = "flex";
 
 };
 
+const resendEmailBtnPressed = async() => {
+    await sendEmailVerification(auth.currentUser);
+};
+
+const forgotPasswordBtnPressed = () => {
+    loginForm.style.display = "none";
+    resetPasswordForm.style.display = "block";
+};
+
+const resetPasswordBtnPressed = async(e) => {
+    e.preventDefault();
+    console.log(resetPasswordEmail.value);
+
+    try {
+        await sendPasswordResetEmail(auth, resetPasswordEmail.value);
+        resetPasswordMessage.innerHTML = `We've sent a link to reset your password to ${resetPasswordEmail.value}`;
+        resetPasswordMessage.classList.add("success");
+    } catch (error) {
+        console.log(error.code);
+        resetPasswordMessage.innerHTML = "Please provide a valid registered email";
+        resetPasswordMessage.classList.add("error");
+    }
+    resetPasswordMessage.classList.remove("hidden");
+};
+
+
+const loginWithGoogleBtnPressed = async (e) => {
+    e.preventDefault();
+
+    const googleProvider = new GoogleAuthProvider();
+ 
+    try {
+        await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+        console.log(error.code);
+    }
+    
+
+}
 
 
 signUpBtn.addEventListener("click", signUpBtnPressed);
@@ -184,6 +281,10 @@ signUpLogInBtn.addEventListener("click", signUpLogInBtnPressed);
 mainView.addEventListener("click", hideMainView);
 profileDataBtn.addEventListener("click", profileDataBtnPressed);
 profileLogOutBtn.addEventListener("click", profileLogOutBtnPressed);
+resendEmailBtn.addEventListener("click", resendEmailBtnPressed);
+forgotPasswordBtn.addEventListener("click", forgotPasswordBtnPressed);
+resetPasswordBtn.addEventListener("click", resetPasswordBtnPressed);
+loginWithGoogleBtn.addEventListener("click", loginWithGoogleBtnPressed);
 
 const formatErrorMessage = (errorCode, action) => {
     let message = "";

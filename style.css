@@ -564,6 +564,7 @@ AUTH UI
 
 #login-form {
     min-width: 400px;
+    max-width: 400px;
     text-align: center;
     display:none;
     position: fixed;
@@ -580,9 +581,28 @@ AUTH UI
     left: 50%;
 }
 
+#email-verification {
+    min-width: 400px;
+    text-align: center;
+    display:none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+}
+
+#reset-password-form {
+    min-width: 400px;
+    text-align: center;
+    display: hide;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+}
+
 /* CSS to add pointer cursor to specific anchor tags */
 #need-an-account-btn,
-#have-an-account-btn {
+#have-an-account-btn,
+#forgot-password-btn {
     cursor: pointer;
 }
 
