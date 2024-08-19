@@ -11,13 +11,22 @@ import {
     signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
+import { 
+    getFirestore,
+    doc,
+    setDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"
+
 // Ensure the auth component is registered properly
 const auth = getAuth(app);
+const db = getFirestore();
 
 const mainView = document.getElementById("ui-section"); //shows everything account related
 
+
 const emailVerificationView = document.getElementById("email-verification")
 const resendEmailBtn = document.getElementById("resend-email-btn");
+
 
 const resetPasswordForm = document.getElementById("reset-password-form");
 const resetPasswordBtn = document.getElementById("reset-password-btn");
@@ -34,6 +43,9 @@ const needAnAccountBtn= document.getElementById("need-an-account-btn");
 const forgotPasswordBtn = document.getElementById("forgot-password-btn");
 const loginWithGoogleBtn = document.getElementById("login-with-google-btn");
 
+
+const userName = document.getElementById("username");
+const realName = document.getElementById("real-name");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const signUpBtn = document.getElementById("signup-btn");
@@ -41,9 +53,11 @@ const UIErrorMessage = document.getElementById("error-message");
 const signUpFormView = document.getElementById("signup-form");
 const haveAnAccountBtn = document.getElementById("have-an-account-btn");
 
+
 const userProfileView = document.getElementById("user-profile");
 const UIuserEmail = document.getElementById("user-email");
 const logOutBtn = document.getElementById("logout-btn");
+
 
 const signUpLogInBtn = document.getElementById("sign-up-log-in-btn");
 const profileDataBtn = document.getElementById("profile-data-btn");
@@ -162,11 +176,16 @@ const signUpBtnPressed = async (e) => {
         );
 
         await sendEmailVerification(userCredential.user);
+
+        const docRef = doc(db, "users", userCredential.user.uid);
+        await setDoc(docRef, {
+            username: userName.value,
+            realname: realName.value,
+            email: email.value,
+            tier: "free",
+        });
         
         console.log(userCredential);
-
-
-
 
     } catch (error)  {
         console.log(error);
