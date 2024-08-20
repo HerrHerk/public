@@ -15,6 +15,7 @@ import {
     getFirestore,
     doc,
     setDoc,
+    getDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"
 
 // Ensure the auth component is registered properly
@@ -57,6 +58,11 @@ const haveAnAccountBtn = document.getElementById("have-an-account-btn");
 const userProfileView = document.getElementById("user-profile");
 const UIuserEmail = document.getElementById("user-email");
 const logOutBtn = document.getElementById("logout-btn");
+const updateName = document.getElementById("update-realname");
+const updateUserName = document.getElementById("update-username");
+const updateEmail = document.getElementById("update-email");
+const updateBtn = document.getElementById("update-btn");
+
 
 
 const signUpLogInBtn = document.getElementById("sign-up-log-in-btn");
@@ -65,7 +71,7 @@ const profileLogOutBtn = document.getElementById("profile-logout-btn");
 const authLinksLogIn = document.getElementById("auth-links-login");
 const authLinksLogOut = document.getElementById("auth-links-logout");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
     console.log(user);
     if (user) {
@@ -80,6 +86,9 @@ onAuthStateChanged(auth, (user) => {
             signUpFormView.style.display = "none";
             emailVerificationView.style.display = "block";
 
+
+            
+
         } else {
             UIuserEmail.innerHTML = user.email;
 
@@ -89,6 +98,23 @@ onAuthStateChanged(auth, (user) => {
             authLinksLogIn.style.display = "none";
             authLinksLogOut.style.display = "flex"; // Show logout options
             signUpFormView.style.display = "none";
+
+            
+            try {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+                console.log(docSnap.data());
+
+                updateName.value = docSnap.data().realname;
+                updateUserName.value = docSnap.data().username;
+                updateEmail.value = docSnap.data().email;
+                
+
+            } catch (error){
+                console.log(error.code);
+            }
+
+
         }
 
 
@@ -290,6 +316,24 @@ const loginWithGoogleBtnPressed = async (e) => {
 
 }
 
+const updateBtnPressed = async (e) => {
+    e.preventDefault();
+
+    const docRef = doc(db, "users", auth.currentUser.uid);
+
+    try {
+        await setDoc(docRef, {
+            realname: updateName.value,
+            username: updateUserName.value,
+            email: updateEmail.value,
+        });
+    } catch (error) {
+        console.log(error.ccode);
+    }
+
+
+
+};
 
 signUpBtn.addEventListener("click", signUpBtnPressed);
 logOutBtn.addEventListener("click", logOutBtnPressed);
@@ -304,6 +348,7 @@ resendEmailBtn.addEventListener("click", resendEmailBtnPressed);
 forgotPasswordBtn.addEventListener("click", forgotPasswordBtnPressed);
 resetPasswordBtn.addEventListener("click", resetPasswordBtnPressed);
 loginWithGoogleBtn.addEventListener("click", loginWithGoogleBtnPressed);
+updateBtn.addEventListener("click", updateBtnPressed);
 
 const formatErrorMessage = (errorCode, action) => {
     let message = "";
